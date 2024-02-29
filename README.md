@@ -117,3 +117,7 @@ Randomized with seed 904575
 
 $
 ```
+
+## Create a `FeatureCase` helper module
+
+https://www.tddphoenix.com/setting-up/#creating-a-featurecase-helper-module
