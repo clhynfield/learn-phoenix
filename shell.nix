@@ -16,5 +16,6 @@ pkgs.mkShellNoCC {
     wget
     tree
     elixir_1_16
+    chromedriver
   ];
 }

@@ -62,3 +62,58 @@ Finished in 0.01 seconds (0.01s async, 0.00s sync)
 
 Randomized with seed 724817
 ```
+
+## Testing outside-in
+
+## Set up Wallaby
+
+Add Wallaby to the list of dependencies in `mix.exs`:
+
+```elixir
+# mix.exs
+def deps do
+   # other deps
+   {:plug_cowboy, "~> 2.7"},
+   {:wallaby, "~> 0.30.6", [runtime: false, only: :test]}
+  ]
+end
+```
+
+And install it:
+
+```shell-session
+$ mix deps.get
+…
+* Getting cowboy (Hex package)
+* Getting cowboy_telemetry (Hex package)
+* Getting cowlib (Hex package)
+* Getting ranch (Hex package)
+You have added/upgraded packages you could sponsor, run `mix hex.sponsor` to learn more
+$
+```
+
+To the test runner in `test/test_helper.exs`, add Wallaby and a base URL to resolve relative paths:
+
+```elixir
+# test/test_helper.exs
+ExUnit.start()
+Ecto.Adapters.SQL.Sandbox.mode(Chatter.Repo, :manual)
+{:ok, _} = Application.ensure_all_started(:wallaby)
+Application.put_env(:wallaby, :base_url, ChatterWeb.Endpoint.url())
+```
+
+Add a bunch more config according to [TDDPhoenix - Setting Up](https://www.tddphoenix.com/setting-up/)…
+
+Then run the tests again and ensure they pass:
+
+```shell-session
+$ mix test
+Generated chatter app
+.....
+Finished in 0.09 seconds (0.06s async, 0.03s sync)
+5 tests, 0 failures
+
+Randomized with seed 904575
+
+$
+```
